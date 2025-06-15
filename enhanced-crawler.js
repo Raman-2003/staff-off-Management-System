@@ -10,8 +10,8 @@ const { execSync } = require('child_process');
 puppeteer.use(StealthPlugin());
 
 // Configuration
-const SEARCH_KEYWORD = process.env.SEARCH_KEYWORD || 'Node.js';
-const EXPERIENCE_RANGE = process.env.EXPERIENCE_RANGE || '2-5';
+const SEARCH_KEYWORD = process.env.SEARCH_KEYWORD || 'JAVA';
+const EXPERIENCE_RANGE = process.env.EXPERIENCE_RANGE || '0-2';
 const RESULTS_LIMIT = parseInt(process.env.RESULTS_LIMIT || '50');
 const OUTPUT_FILE = 'naukri_results.csv';
 
@@ -153,7 +153,7 @@ const fetchJobsWithAPI = async () => {
       -H "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36" \\
       -H "Accept: application/json, text/plain, */*" \\
       -H "Accept-Language: en-US,en;q=0.9" \\
-      -H "Referer: https://www.naukri.com/node-js-jobs?experience=${EXPERIENCE_RANGE}" \\
+      -H "Referer: https://www.naukri.com/java-jobs?experience=${EXPERIENCE_RANGE}" \\
       -H "Origin: https://www.naukri.com" \\
       -H "Connection: keep-alive" \\
       -H "appid: 109" \\
@@ -498,7 +498,7 @@ const crawlNaukri = async () => {
       // Add referer header to make requests look more legitimate
       if (request.resourceType() === 'document' || request.resourceType() === 'xhr') {
         const headers = request.headers();
-        headers['Referer'] = 'https://www.google.com/search?q=node.js+jobs+naukri';
+        headers['Referer'] = 'https://www.google.com/search?q=java+jobs+naukri';
         request.continue({ headers });
       } else {
         request.continue();
@@ -557,7 +557,7 @@ const crawlNaukri = async () => {
     
     if (!searchBoxFound) {
       console.log('Could not find search box, trying direct URL navigation...');
-      await page.goto(`https://www.naukri.com/node-js-jobs-${EXPERIENCE_RANGE}-years`, { waitUntil: 'networkidle2', timeout: 60000 });
+      await page.goto(`https://www.naukri.com/java-jobs-${EXPERIENCE_RANGE}-years`, { waitUntil: 'networkidle2', timeout: 60000 });
     } else {
       // Try to submit the search
       try {
@@ -586,7 +586,7 @@ const crawlNaukri = async () => {
       console.log('No jobs found on the page. Trying direct URL navigation...');
       
       // Try a different URL format
-      await page.goto(`https://www.naukri.com/node-js-jobs?experience=${EXPERIENCE_RANGE}`, { waitUntil: 'networkidle2', timeout: 60000 });
+      await page.goto(`https://www.naukri.com/java-jobs?experience=${EXPERIENCE_RANGE}`, { waitUntil: 'networkidle2', timeout: 60000 });
       await randomDelay(3000, 5000);
       
       // Take another screenshot
